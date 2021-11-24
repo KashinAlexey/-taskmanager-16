@@ -9,5 +9,14 @@ module.exports = {
   devtool: 'source-map', // подключение карты исходного кода. для удобства правки кода после его сборки в  один файл
   devServer: {
     hot: false // Отключение горячей перезагрузки модулей
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules)/,
+        use: ['babel -loader']
+      }
+    ]
   }
 };
