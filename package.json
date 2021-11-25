@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.16.0",
+    "@babel/eslint-parser": "7.16.0",
     "@babel/plugin-proposal-class-properties": "7.16.0",
     "@babel/plugin-proposal-nullish-coalescing-operator": "7.16.0",
     "@babel/plugin-proposal-optional-chaining": "7.16.0",
@@ -23,8 +24,5 @@
   },
   "engines": {
     "node": "16"
-  },
-  "dependencies": {
-    "@babel/eslint-parser": "^7.16.0"
   }
 }
