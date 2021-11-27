@@ -1,5 +1,13 @@
-export const createTaskTemplate = () => (
-  `<article class="card card--black">
+import dayjs from 'dayjs';
+
+export const createTaskTemplate = (task) => {
+  const {color, description, dueDate} = task;
+
+  const date = dueDate !== null
+    ? dayjs(dueDate).format('D MMMM')
+    : '';
+
+  return `<article class="card card--${color}">
     <div class="card__form">
       <div class="card__inner">
         <div class="card__control">
@@ -16,26 +24,30 @@ export const createTaskTemplate = () => (
             favorites
           </button>
         </div>
+
         <div class="card__color-bar">
           <svg class="card__color-bar-wave" width="100%" height="10">
             <use xlink:href="#wave"></use>
           </svg>
         </div>
+
         <div class="card__textarea-wrap">
-          <p class="card__text">Example default task with default color.</p>
+          <p class="card__text">${description}</p>
         </div>
+
         <div class="card__settings">
           <div class="card__details">
             <div class="card__dates">
               <div class="card__date-deadline">
                 <p class="card__input-deadline-wrap">
-                  <span class="card__date">23 September</span>
+                <span class="card__date">${date}</span>
                 </p>
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>
-  </article>`
-);
+  </article>`;
+};
