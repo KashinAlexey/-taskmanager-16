@@ -1,3 +1,5 @@
+import dayjs from 'dayjs'; // Пакет для работы с датой
+
 // Функция из интернета по генерации случайного числа из диапазона
 const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -18,19 +20,38 @@ const generateDescription = () => {
   return descriptions[randomIndex];
 };
 
-export const generateTask = () => ({
-  description: generateDescription(),
-  dueDate: null,
-  repeating: {
-    mo: false,
-    tu: false,
-    we: false,
-    th: false,
-    fr: false,
-    sa: false,
-    su: false,
-  },
-  color: 'black',
-  isArchive: false,
-  isFavorite: false,
-});
+const generateBoolean = () => Boolean(getRandomInteger(0, 1));
+
+const generateDate = () => {
+  const isDate = generateBoolean();
+
+  if (!isDate) {
+    return null;
+  }
+
+  const maxDaysGap = 7;
+  const daysGap = getRandomInteger(-maxDaysGap, maxDaysGap);
+
+  return dayjs().add(daysGap, 'day').toDate();
+};
+
+export const generateTask = () => {
+  const dueDate = generateDate();
+
+  return {
+    description: generateDescription(),
+    dueDate,
+    repeating: {
+      mo: false,
+      tu: false,
+      we: false,
+      th: false,
+      fr: false,
+      sa: false,
+      su: false,
+    },
+    color: 'black',
+    isArchive: false,
+    isFavorite: false,
+  };
+};
