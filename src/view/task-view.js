@@ -1,5 +1,5 @@
-export const createTaskTemplate = () => {
-  return `<article class="card card--black">
+export const createTaskTemplate = () => (
+  `<article class="card card--black">
     <div class="card__form">
       <div class="card__inner">
         <div class="card__control">
@@ -37,5 +37,5 @@ export const createTaskTemplate = () => {
         </div>
       </div>
     </div>
-  </article>`;
-}
+  </article>`
+);

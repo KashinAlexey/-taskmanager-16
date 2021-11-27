@@ -1,5 +1,5 @@
-export const createTaskEditTemplate = () => {
-  return `<article class="card card--edit card--yellow card--repeat">
+export const createTaskEditTemplate = () => (
+  `<article class="card card--edit card--yellow card--repeat">
     <form class="card__form" method="get">
       <div class="card__inner">
         <div class="card__color-bar">
@@ -188,5 +188,5 @@ export const createTaskEditTemplate = () => {
         </div>
       </div>
     </form>
-  </article>`;
-}
+  </article>`
+);
