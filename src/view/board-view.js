@@ -1,10 +1,22 @@
-export const createBoardTemplate = () => (
-  `<section class="board container">
-    <div class="board__sort-list">
-      <a href="#" class="board__sort-item">SORT BY DEFAULT</a>
-      <a href="#" class="board__sort-item">SORT BY DATE up</a>
-      <a href="#" class="board__sort-item">SORT BY DATE down</a>
-    </div>
-    <div class="board__tasks"></div>
-  </section>`
-);
+import {createElement} from '../render.js';
+
+const createBoardTemplate = () => '<section class="board container"></section>';
+export default class BoardView {
+  #element = null;
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  get template() {
+    return createBoardTemplate();
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}
