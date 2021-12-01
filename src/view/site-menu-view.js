@@ -1,4 +1,6 @@
-export const createSiteMenuTemplate = () => (
+import {createElement} from '../render.js';
+
+const createSiteMenuTemplate = () => (
   `<section class="control__btn-wrap">
     <input
       type="radio"
@@ -28,3 +30,23 @@ export const createSiteMenuTemplate = () => (
     >
   </section>`
 );
+
+export default class SiteMenuView {
+  #element = null;
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  get template() {
+    return createSiteMenuTemplate();
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}
