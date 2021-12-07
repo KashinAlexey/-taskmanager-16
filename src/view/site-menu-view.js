@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import AbstractView from './abstract-view.js';
 
 const createSiteMenuTemplate = () => (
   `<section class="control__btn-wrap">
@@ -31,22 +31,9 @@ const createSiteMenuTemplate = () => (
   </section>`
 );
 
-export default class SiteMenuView {
-  #element = null;
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
+export default class SiteMenuView extends AbstractView {
 
   get template() {
     return createSiteMenuTemplate();
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }
