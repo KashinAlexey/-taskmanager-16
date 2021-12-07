@@ -10,21 +10,25 @@ import NoTaskView from './view/no-task-view.js';
 import {render, RenderPosition} from './render.js';
 import {generateTask} from './mock/task.js';
 import {generateFilter} from './mock/filter.js';
+
 const TASK_COUNT = 22;
 const TASK_COUNT_PER_STEP = 8;
 const tasks = Array.from({length: TASK_COUNT}, generateTask);
 const filters = generateFilter(tasks);
 const siteMainElement = document.querySelector('.main');
 const siteHeaderElement = siteMainElement.querySelector('.main__control');
+
 const renderTask = (taskListElement, task) => {
   const taskComponent = new TaskView(task);
   const taskEditComponent = new TaskEditView(task);
   const replaceCardToForm = () => {
     taskListElement.replaceChild(taskEditComponent.element, taskComponent.element);
   };
+
   const replaceFormToCard = () => {
     taskListElement.replaceChild(taskComponent.element, taskEditComponent.element);
   };
+
   const onEscKeyDown = (evt) => {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
@@ -32,15 +36,17 @@ const renderTask = (taskListElement, task) => {
       document.removeEventListener('keydown', onEscKeyDown);
     }
   };
-  taskComponent.element.querySelector('.card__btn--edit').addEventListener('click', () => {
+
+  taskComponent.setEditClickHandler(() => {
     replaceCardToForm();
     document.addEventListener('keydown', onEscKeyDown);
   });
-  taskEditComponent.element.querySelector('form').addEventListener('submit', (evt) => {
-    evt.preventDefault();
+
+  taskEditComponent.setFormSubmitHandler(() => {
     replaceFormToCard();
     document.removeEventListener('keydown', onEscKeyDown);
   });
+
   render(taskListElement, taskComponent.element, RenderPosition.BEFOREEND);
 };
 
@@ -68,8 +74,8 @@ const renderBoard = (boardContainer, boardTasks) => {
     const loadMoreButtonComponent = new LoadMoreButtonView();
     render(boardComponent.element, loadMoreButtonComponent.element, RenderPosition.BEFOREEND);
 
-    loadMoreButtonComponent.element.addEventListener('click', (evt) => {
-      evt.preventDefault();
+    loadMoreButtonComponent.setClickHandler(() => {
+
       boardTasks
         .slice(renderedTaskCount, renderedTaskCount + TASK_COUNT_PER_STEP)
         .forEach((boardTask) => renderTask(taskListComponent.element, boardTask));
