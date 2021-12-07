@@ -1,5 +1,5 @@
 import {COLORS} from '../const.js';
-import {isTaskRepeating, humanizeTaskDueDate} from '../utils.js';
+import {isTaskRepeating, formatTaskDueDate} from '../utils/task.js';
 import AbstractView from './abstract-view.js';
 
 const BLANK_TASK = {
@@ -30,7 +30,7 @@ const createTaskEditDateTemplate = (dueDate) => (
           type="text"
           placeholder=""
           name="date"
-          value="${humanizeTaskDueDate(dueDate)}"
+          value="${formatTaskDueDate(dueDate)}"
         />
       </label>
     </fieldset>` : ''}
