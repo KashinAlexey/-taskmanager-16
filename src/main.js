@@ -3,7 +3,7 @@ import FilterView from './view/filter-view.js';
 import {render, RenderPosition} from './utils/render.js';
 import {generateTask} from './mock/task.js';
 import {generateFilter} from './mock/filter.js';
-import BoardPresenter from './presenter/board-presenter.js';
+import BoardPresenter from './presenter/presenter-board.js';
 
 const TASK_COUNT = 22;
 
