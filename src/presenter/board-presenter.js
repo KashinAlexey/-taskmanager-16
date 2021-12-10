@@ -48,7 +48,7 @@ export default class BoardPresenter {
   #renderTask = (task) => {
     // Метод, куда уйдёт логика созданию и рендерингу компонетов задачи,
     // текущая функция renderTask в main.js
-    const taskPresenter = new TaskPresenter(this.#taskListComponent);
+    const taskPresenter = new TaskPresenter(this.#taskListComponent, this.#handleTaskChange);
     taskPresenter.init(task);
     this.#taskPresenter.set(task.id, taskPresenter);
   }
