@@ -35,6 +35,10 @@ export default class BoardPresenter {
     this.#renderBoard();
   }
 
+  #handleModeChange = () => {
+    this.#taskPresenter.forEach((presenter) => presenter.resetView());
+  }
+
   #handleTaskChange = (updatedTask) => {
     this.#boardTasks = updateItem(this.#boardTasks, updatedTask);
     this.#taskPresenter.get(updatedTask.id).init(updatedTask);
@@ -48,7 +52,7 @@ export default class BoardPresenter {
   #renderTask = (task) => {
     // Метод, куда уйдёт логика созданию и рендерингу компонетов задачи,
     // текущая функция renderTask в main.js
-    const taskPresenter = new TaskPresenter(this.#taskListComponent, this.#handleTaskChange);
+    const taskPresenter = new TaskPresenter(this.#taskListComponent, this.#handleTaskChange, this.#handleModeChange);
     taskPresenter.init(task);
     this.#taskPresenter.set(task.id, taskPresenter);
   }
