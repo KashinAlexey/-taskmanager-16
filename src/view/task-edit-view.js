@@ -135,6 +135,10 @@ export default class TaskEditView extends AbstractView {
   constructor(task = BLANK_TASK) {
     super();
     this._data = TaskEditView.parseTaskToData(task);
+    this.element.querySelector('.card__date-deadline-toggle')
+      .addEventListener('click', this.#dueDateToggleHandler);
+    this.element.querySelector('.card__repeat-toggle')
+      .addEventListener('click', this.#repeatingToggleHandler);
   }
 
   get template() {
@@ -164,6 +168,20 @@ export default class TaskEditView extends AbstractView {
     const newElement = this.element;
 
     parent.replaceChild(newElement, prevElement);
+  }
+
+  #dueDateToggleHandler = (evt) => {
+    evt.preventDefault();
+    this.updateData({
+      isDueDate: !this._data.isDueDate,
+    });
+  }
+
+  #repeatingToggleHandler = (evt) => {
+    evt.preventDefault();
+    this.updateData({
+      isRepeating: !this._data.isRepeating,
+    });
   }
 
   #formSubmitHandler = (evt) => {
