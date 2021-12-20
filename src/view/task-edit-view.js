@@ -1,6 +1,6 @@
+import SmartView from './smart-view.js';
 import {COLORS} from '../const.js';
 import {isTaskRepeating, formatTaskDueDate} from '../utils/task.js';
-import AbstractView from './abstract-view.js';
 
 const BLANK_TASK = {
   color: COLORS[0],
@@ -131,7 +131,7 @@ export const createTaskEditTemplate = (data) => {
     </form>
   </article>`;
 };
-export default class TaskEditView extends AbstractView {
+export default class TaskEditView extends SmartView {
   #task = null;
 
   constructor(task = BLANK_TASK) {
@@ -147,32 +147,6 @@ export default class TaskEditView extends AbstractView {
   setFormSubmitHandler = (callback) => {
     this._callback.formSubmit = callback;
     this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
-  }
-
-  updateData = (update, justDataUpdating) => {
-    if (!update) {
-      return;
-    }
-
-    this._data = {...this._data, ...update};
-
-    if (justDataUpdating) {
-      return;
-    }
-
-    this.updateElement();
-  }
-
-  updateElement = () => {
-    const prevElement = this.element;
-    const parent = prevElement.parentElement;
-    this.removeElement();
-
-    const newElement = this.element;
-
-    parent.replaceChild(newElement, prevElement);
-
-    this.restoreHandlers();
   }
 
   restoreHandlers = () => {
