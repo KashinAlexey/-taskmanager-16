@@ -87,6 +87,8 @@ export const createTaskEditTemplate = (data) => {
 
   const colorsTemplate = createTaskEditColorsTemplate(color);
 
+  const isSubmitDisabled = isRepeating && !isTaskRepeating(repeating);
+
   return `<article class="card card--edit card--${color} ${repeatingClassName}">
     <form class="card__form" method="get">
       <div class="card__inner">
@@ -122,7 +124,7 @@ export const createTaskEditTemplate = (data) => {
           </div>
         </div>
         <div class="card__status-btns">
-          <button class="card__save" type="submit">save</button>
+          <button class="card__save" type="submit" ${isSubmitDisabled ? 'disabled' : ''}>save</button>
           <button class="card__delete" type="button">delete</button>
         </div>
       </div>
@@ -185,12 +187,23 @@ export default class TaskEditView extends AbstractView {
       .addEventListener('click', this.#repeatingToggleHandler);
     this.element.querySelector('.card__text')
       .addEventListener('input', this.#descriptionInputHandler);
+    if (this._data.isRepeating) {
+      this.element.querySelector('.card__repeat-days-inner')
+        .addEventListener('change', this.#repeatingChangeHandler);
+    }
+
+    this.element.querySelector('.card__colors-wrap')
+      .addEventListener('change', this.#colorChangeHandler);
   }
 
   #dueDateToggleHandler = (evt) => {
     evt.preventDefault();
     this.updateData({
       isDueDate: !this._data.isDueDate,
+      // Логика следующая: если выбор даты нужно показать,
+      // то есть когда "!this._data.isDueDate === true",
+      // тогда isRepeating должно быть строго false.
+      isRepeating: !this._data.isDueDate ? false : this._data.isRepeating,
     });
   }
 
@@ -205,6 +218,22 @@ export default class TaskEditView extends AbstractView {
     evt.preventDefault();
     this.updateData({
       isRepeating: !this._data.isRepeating,
+      // Аналогично, но наоборот, для повторения
+      isDueDate: !this._data.isRepeating ? false : this._data.isDueDate,
+    });
+  }
+
+  #repeatingChangeHandler = (evt) => {
+    evt.preventDefault();
+    this.updateData({
+      repeating: {...this._data.repeating, [evt.target.value]: evt.target.checked},
+    });
+  }
+
+  #colorChangeHandler = (evt) => {
+    evt.preventDefault();
+    this.updateData({
+      color: evt.target.value,
     });
   }
 
