@@ -61,6 +61,7 @@ export default class TaskPresenter {
 
   resetView = () => {
     if (this.#mode !== Mode.DEFAULT) {
+      this.#taskEditComponent.reset(this.#task);
       this.#replaceFormToCard();
     }
   }
@@ -81,6 +82,7 @@ export default class TaskPresenter {
   #escKeyDownHandler = (evt) => {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
+      this.#taskEditComponent.reset(this.#task);
       this.#replaceFormToCard();
     }
   }

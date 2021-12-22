@@ -149,6 +149,12 @@ export default class TaskEditView extends SmartView {
     this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
   }
 
+  reset = (task) => {
+    this.updateData(
+      TaskEditView.parseTaskToData(task),
+    );
+  }
+
   restoreHandlers = () => {
     this.#setInnerHandlers();
     this.setFormSubmitHandler(this._callback.formSubmit);
