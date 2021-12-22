@@ -3,7 +3,7 @@ import {COLORS} from '../const.js';
 import {isTaskRepeating, formatTaskDueDate} from '../utils/task.js';
 import flatpickr from 'flatpickr';
 
-import '../../node_modules/flatpickr/dist/flatpickr.min.css';
+//import '../../node_modules/flatpickr/dist/flatpickr.css';
 
 const BLANK_TASK = {
   color: COLORS[0],
@@ -136,6 +136,7 @@ export const createTaskEditTemplate = (data) => {
 };
 export default class TaskEditView extends SmartView {
   #task = null;
+  #datepicker = null;
 
   constructor(task = BLANK_TASK) {
     super();
@@ -152,6 +153,17 @@ export default class TaskEditView extends SmartView {
     this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
   }
 
+  // Перегружаем метод родителя removeElement,
+  // чтобы при удалении удалялся более не нужный календарь
+  removeElement = () => {
+    super.removeElement();
+
+    if (this.#datepicker) {
+      this.#datepicker.destroy();
+      this.#datepicker = null;
+    }
+  }
+
   reset = (task) => {
     this.updateData(
       TaskEditView.parseTaskToData(task),
@@ -161,6 +173,21 @@ export default class TaskEditView extends SmartView {
   restoreHandlers = () => {
     this.#setInnerHandlers();
     this.setFormSubmitHandler(this._callback.formSubmit);
+  }
+
+  #setDatepicker = () => {
+    if (this._data.isDueDate) {
+      // flatpickr есть смысл инициализировать только в случае,
+      // если поле выбора даты доступно для заполнения
+      this.#datepicker = flatpickr(
+        this.element.querySelector('.card__date'),
+        {
+          dateFormat: 'j F',
+          defaultDate: this._data.dueDate,
+          onChange: this.#dueDateChangeHandler, // На событие flatpickr передаём наш колбэк
+        },
+      );
+    }
   }
 
   #setInnerHandlers = () => {
@@ -210,6 +237,12 @@ export default class TaskEditView extends SmartView {
     evt.preventDefault();
     this.updateData({
       repeating: {...this._data.repeating, [evt.target.value]: evt.target.checked},
+    });
+  }
+
+  #dueDateChangeHandler = ([userDate]) => {
+    this.updateData({
+      dueDate: userDate,
     });
   }
 
