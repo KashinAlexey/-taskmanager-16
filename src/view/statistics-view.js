@@ -3,7 +3,15 @@ import flatpickr from 'flatpickr';
 import SmartView from './smart-view.js';
 import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import {countCompletedTaskInDateRange, makeItemsUniq, countTasksByColor, colorToHex} from '../utils/statistics.js';
+import {
+  countCompletedTaskInDateRange,
+  makeItemsUniq,
+  countTasksByColor,
+  colorToHex,
+  countTasksInDateRange,
+  parseChartDate,
+  getDatesInRange
+} from '../utils/statistics.js';
 
 import '../../node_modules/flatpickr/dist/flatpickr.min.css';
 
@@ -71,14 +79,18 @@ const renderColorsChart = (colorsCtx, tasks) => {
 };
 
 const renderDaysChart = (daysCtx, tasks, dateFrom, dateTo) => {
+  const dates = getDatesInRange(dateFrom, dateTo);
+  const parsedDates = dates.map(parseChartDate);
+  const taskInDateRangeCounts = countTasksInDateRange(dates, tasks);
+
   // Функция для отрисовки графика по датам
   return new Chart(daysCtx, {
     plugins: [ChartDataLabels],
     type: 'line',
     data: {
-      labels: ['3 Sep'], // Сюда нужно передать названия дней
+      labels: parsedDates, // Сюда нужно передать названия дней
       datasets: [{
-        data: [1], // Сюда нужно передать в том же порядке количество задач по каждому дню
+        data: taskInDateRangeCounts, // Сюда нужно передать в том же порядке количество задач по каждому дню
         backgroundColor: 'transparent',
         borderColor: '#000000',
         borderWidth: 1,
