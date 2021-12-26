@@ -73,7 +73,6 @@ export default class BoardPresenter {
 
   createTask = (callback) => {
     this.#currentSortType = SortType.DEFAULT;
-    this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.ALL);
     this.#taskNewPresenter.init(callback);
   }
 

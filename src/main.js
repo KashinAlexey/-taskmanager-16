@@ -36,6 +36,8 @@ const handleSiteMenuClick = (menuItem) => {
     case MenuItem.ADD_NEW_TASK:
       // Скрыть статистику
       // Показать фильтры
+      filterPresenter.destroy();
+      filterPresenter.init();
       // Показать доску
       boardPresenter.destroy();
       boardPresenter.init();
@@ -48,12 +50,14 @@ const handleSiteMenuClick = (menuItem) => {
       break;
     case MenuItem.TASKS:
       // Показать фильтры
+      filterPresenter.init();
       // Показать доску
       boardPresenter.init();
       // Скрыть статистику
       break;
     case MenuItem.STATISTICS:
       // Скрыть фильтры
+      filterPresenter.destroy();
       // Скрыть доску
       boardPresenter.destroy();
       // Показать статистику
