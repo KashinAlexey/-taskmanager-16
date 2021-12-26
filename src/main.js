@@ -6,6 +6,7 @@ import BoardPresenter from './presenter/board-presenter.js';
 import TasksModel from './model/tasks-model.js';
 import FilterModel from './model/filter-model.js';
 import {MenuItem} from './const.js';
+import StatisticsView from './view/statistics-view.js';
 
 const TASK_COUNT = 22;
 
@@ -61,6 +62,7 @@ const handleSiteMenuClick = (menuItem) => {
       // Скрыть доску
       boardPresenter.destroy();
       // Показать статистику
+      render(siteMainElement, new StatisticsView(tasksModel.tasks), RenderPosition.BEFOREEND);
       break;
   }
 };
