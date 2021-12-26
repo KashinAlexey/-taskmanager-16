@@ -1,5 +1,5 @@
 import SiteMenuView from './view/site-menu-view.js';
-import {render, RenderPosition} from './utils/render.js';
+import {render, RenderPosition, remove} from './utils/render.js';
 import {generateTask} from './mock/task.js';
 import FilterPresenter from './presenter/filter-presenter.js';
 import BoardPresenter from './presenter/board-presenter.js';
@@ -32,10 +32,13 @@ const handleTaskNewFormClose = () => {
   siteMenuComponent.setMenuItem(MenuItem.TASKS);
 };
 
+let statisticsComponent = null;
+
 const handleSiteMenuClick = (menuItem) => {
   switch (menuItem) {
     case MenuItem.ADD_NEW_TASK:
       // Скрыть статистику
+      remove(statisticsComponent);
       // Показать фильтры
       filterPresenter.destroy();
       filterPresenter.init();
@@ -55,6 +58,7 @@ const handleSiteMenuClick = (menuItem) => {
       // Показать доску
       boardPresenter.init();
       // Скрыть статистику
+      remove(statisticsComponent);
       break;
     case MenuItem.STATISTICS:
       // Скрыть фильтры
@@ -62,7 +66,8 @@ const handleSiteMenuClick = (menuItem) => {
       // Скрыть доску
       boardPresenter.destroy();
       // Показать статистику
-      render(siteMainElement, new StatisticsView(tasksModel.tasks), RenderPosition.BEFOREEND);
+      statisticsComponent = new StatisticsView(tasksModel.tasks);
+      render(siteMainElement, statisticsComponent, RenderPosition.BEFOREEND);
       break;
   }
 };
