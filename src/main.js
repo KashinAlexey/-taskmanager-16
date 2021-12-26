@@ -37,6 +37,8 @@ const handleSiteMenuClick = (menuItem) => {
       // Скрыть статистику
       // Показать фильтры
       // Показать доску
+      boardPresenter.destroy();
+      boardPresenter.init();
       // Показать форму добавления новой задачи
       boardPresenter.createTask(handleTaskNewFormClose);
       // Убрать выделение с других пунктов меню
@@ -47,11 +49,13 @@ const handleSiteMenuClick = (menuItem) => {
     case MenuItem.TASKS:
       // Показать фильтры
       // Показать доску
+      boardPresenter.init();
       // Скрыть статистику
       break;
     case MenuItem.STATISTICS:
       // Скрыть фильтры
       // Скрыть доску
+      boardPresenter.destroy();
       // Показать статистику
       break;
   }
