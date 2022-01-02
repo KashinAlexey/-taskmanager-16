@@ -69,12 +69,13 @@ const handleSiteMenuClick = (menuItem) => {
   }
 };
 
-siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
-render(siteHeaderElement, siteMenuComponent, RenderPosition.BEFOREEND);
-
 filterPresenter.init();
 boardPresenter.init();
-tasksModel.init();
+
+tasksModel.init().finally(() => {
+  render(siteHeaderElement, siteMenuComponent, RenderPosition.BEFOREEND);
+  siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
+});
 
 document.querySelector('#control__new-task').addEventListener('click', (evt) => {
   evt.preventDefault();
