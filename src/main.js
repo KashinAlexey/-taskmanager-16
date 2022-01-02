@@ -75,9 +75,11 @@ boardPresenter.init();
 tasksModel.init().finally(() => {
   render(siteHeaderElement, siteMenuComponent, RenderPosition.BEFOREEND);
   siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
+
+  document.querySelector('#control__new-task').addEventListener('click', (evt) => {
+    evt.preventDefault();
+    boardPresenter.createTask();
+  });
 });
 
-document.querySelector('#control__new-task').addEventListener('click', (evt) => {
-  evt.preventDefault();
-  boardPresenter.createTask();
-});
+
