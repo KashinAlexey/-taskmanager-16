@@ -4,7 +4,7 @@ import TaskListView from '../view/task-list-view.js';
 import NoTaskView from '../view/no-task-view.js';
 import LoadMoreButtonView from '../view/load-more-button-view.js';
 import LoadingView from '../view/loading-view.js';
-import TaskPresenter from './task-presenter.js';
+import TaskPresenter, {State as TaskPresenterViewState} from './task-presenter.js';
 import {render, RenderPosition, remove} from '../utils/render.js';
 import {sortTaskUp, sortTaskDown} from '../utils/task.js';
 import {SortType, UpdateType, UserAction, FilterType} from '../const.js';
@@ -91,12 +91,15 @@ export default class BoardPresenter {
     // update - обновленные данные
     switch (actionType) {
       case UserAction.UPDATE_TASK:
+        this.#taskPresenter.get(update.id).setViewState(TaskPresenterViewState.SAVING);
         this.#tasksModel.updateTask(updateType, update);
         break;
       case UserAction.ADD_TASK:
+        this.#taskNewPresenter.setSaving();
         this.#tasksModel.addTask(updateType, update);
         break;
       case UserAction.DELETE_TASK:
+        this.#taskPresenter.get(update.id).setViewState(TaskPresenterViewState.DELETING);
         this.#tasksModel.deleteTask(updateType, update);
         break;
     }
